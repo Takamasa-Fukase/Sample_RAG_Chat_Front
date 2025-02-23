@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatPage extends ConsumerWidget {
-  const ChatPage({super.key});
+class ChatPage2 extends ConsumerWidget {
+  const ChatPage2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

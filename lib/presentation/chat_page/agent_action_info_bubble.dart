@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class AgentActionInfoBubble extends StatelessWidget {
   const AgentActionInfoBubble(
@@ -6,7 +7,7 @@ class AgentActionInfoBubble extends StatelessWidget {
       : super(key: key);
 
   final Widget messageTextWidget;
-  final String textMessage;
+  final types.TextMessage textMessage;
 
   @override
   Widget build(BuildContext context) {
