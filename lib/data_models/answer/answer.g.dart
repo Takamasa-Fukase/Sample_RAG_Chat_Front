@@ -47,6 +47,10 @@ StreamAnswerResponseData _$StreamAnswerResponseDataFromJson(
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           partOfFinalAnswerText:
               $checkedConvert('part_of_final_answer_text', (v) => v as String?),
+          statusCode:
+              $checkedConvert('status_code', (v) => (v as num?)?.toInt()),
+          webContentsScrapingProgress: $checkedConvert(
+              'web_contents_scraping_progress', (v) => (v as num?)?.toInt()),
         );
         return val;
       },
@@ -54,7 +58,9 @@ StreamAnswerResponseData _$StreamAnswerResponseDataFromJson(
         'answerTypeId': 'answer_type_id',
         'actionInfo': 'action_info',
         'sourceUrlList': 'source_url_list',
-        'partOfFinalAnswerText': 'part_of_final_answer_text'
+        'partOfFinalAnswerText': 'part_of_final_answer_text',
+        'statusCode': 'status_code',
+        'webContentsScrapingProgress': 'web_contents_scraping_progress'
       },
     );
 
@@ -65,4 +71,6 @@ Map<String, dynamic> _$StreamAnswerResponseDataToJson(
       'action_info': instance.actionInfo,
       'source_url_list': instance.sourceUrlList,
       'part_of_final_answer_text': instance.partOfFinalAnswerText,
+      'status_code': instance.statusCode,
+      'web_contents_scraping_progress': instance.webContentsScrapingProgress,
     };

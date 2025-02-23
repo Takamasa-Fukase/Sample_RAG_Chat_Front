@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-
 import '../../utilities/url_launcher_util.dart';
 
 class SourceUrlListWidget extends StatelessWidget {
@@ -13,7 +12,9 @@ class SourceUrlListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // FIXME: - （もっと良い書き方知ってたら教えてください。急ぎ実装でFlutterの参照渡し対策をしてます）引数で受け取ったurlListに直接insertすると参照渡しになっていて大元の変数が書き変わってしまうため、一度addAllで中身だけ受け渡して参照を断ち切っている
     List<String> copiedUrlList = [];
+    // MEMO: - ソースURL表示で、空白の数字が無限に増えていくバグの原因はここの参照渡しで、大元の変数（twoDigitsSourceURLList.last）に無限にinsertされて行っていたからだった。一旦、addAllで中身だけ入れ替えて直した。
     copiedUrlList.addAll(urlList);
     if (copiedUrlList.isNotEmpty) {
       // 「詳細資料 :」 部分を同じWrapに差し込むため、indexを調整するためのダミーの値を入れる。改行された場合に良い感じに表示したいから一緒にWrapに入れている。
@@ -24,11 +25,6 @@ class SourceUrlListWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Divider(
-            height: 0,
-            thickness: 1,
-            color: Color.fromRGBO(209, 209, 209, 1),
-          ),
           const SizedBox(
             height: 8,
           ),

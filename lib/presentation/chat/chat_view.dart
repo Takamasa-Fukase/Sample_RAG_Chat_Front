@@ -174,10 +174,6 @@ class _ChatViewState extends ConsumerState<ChatView> {
                               ),
 
                               ChatListView(
-                                width: ResponsiveWidget.isSmallScreen(context)
-                                    ? screenSize.width
-                                    : screenSize.width - largeWidth,
-                                user: ChatUser.user,
                                 messages: viewModel.messages,
                                 currentChatThread: viewModel.currentChatThread,
                                 isShowLoadingForStream:

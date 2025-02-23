@@ -42,6 +42,8 @@ class ChatViewModel with ChangeNotifier {
       StreamMessageResponseStatus.isFirst;
   StreamMessageResponseStatus actionInfoMessageStatus =
       StreamMessageResponseStatus.isFirst;
+  StreamMessageResponseStatus webContentsScrapingProgressMessageStatus =
+      StreamMessageResponseStatus.isFirst;
   List<String> waitingStrings = [];
 
   // 1回の回答のためにGoogle検索が任意の回数実行される可能性があるため、最後に送られてきたソースURLリストだけを採用するために、2次元配列にしている
@@ -121,6 +123,8 @@ class ChatViewModel with ChangeNotifier {
   }
 
   void _handleStreamAnswerResponseValue(dynamic value) {
+    print('_handleStreamAnswerResponseValue: $value');
+
     // TODO: DONEじゃなくて、answerTypeID=3とかで終了の合図にして、もっとスマートに書きたい
     if (value == 'DONE') {
       messageStatus = StreamMessageResponseStatus.isLast;
@@ -141,8 +145,8 @@ class ChatViewModel with ChangeNotifier {
       final StreamAnswerResponseData streamAnswerResponse =
           StreamAnswerResponseData.fromJson(responseJson);
       // レスポンスの種別を判別
-      AnswerType answerType =
-          AnswerType.values[streamAnswerResponse.answerTypeId];
+      final AnswerType answerType =
+          getAnswerTypeFromId(streamAnswerResponse.answerTypeId);
 
       // レスポンスの種別ごとに処理
       switch (answerType) {
@@ -163,13 +167,28 @@ class ChatViewModel with ChangeNotifier {
 
         // 外部データ検索が行われた場合のソースURLを取り出して表示
         case AnswerType.sourceUrlList:
-          twoDimensionSourceURLList += [streamAnswerResponse.sourceUrlList ?? []];
+          twoDimensionSourceURLList += [
+            streamAnswerResponse.sourceUrlList ?? []
+          ];
           break;
 
         // 最終的な回答の断片を表示
         case AnswerType.partOfFinalAnswerText:
           final text = streamAnswerResponse.partOfFinalAnswerText;
           _addStreamMessage(text ?? '');
+          break;
+
+        // アクション情報の出力の完了通知
+        case AnswerType.actionInputGenerationCompleted:
+          // actionInfoMessageStatusをisLastに変更して空文字の追加で表示を更新し、終了する
+          actionInfoMessageStatus = StreamMessageResponseStatus.isLast;
+          _addStreamActionInfoMessage('');
+          break;
+
+        // 外部データ検索結果のスクレイピングなどの重い処理の進捗を割合表示するための値
+        case AnswerType.webContentsScrapingProgress:
+          _addStreamWebContentsScrapingProgressMessage(
+              streamAnswerResponse.webContentsScrapingProgress ?? 0);
           break;
       }
     }
@@ -190,12 +209,10 @@ class ChatViewModel with ChangeNotifier {
           ));
       messages = _messages;
       notifyListeners();
-
     } else if (messageStatus == StreamMessageResponseStatus.isLast) {
       isShowLoadingForStream = false;
       notifyListeners();
       currentChatThread?.messages += [messages[0]];
-
     } else {
       List<types.TextMessage> _messages = [];
       _messages.addAll(messages);
@@ -226,7 +243,18 @@ class ChatViewModel with ChangeNotifier {
       messages = _messages;
       notifyListeners();
     } else if (actionInfoMessageStatus == StreamMessageResponseStatus.isLast) {
-      currentChatThread?.messages += [messages[0]];
+      List<types.TextMessage> _messages = [];
+      _messages.addAll(messages);
+      _messages[0] = types.TextMessage(
+        author: messages[0].author,
+        createdAt: messages[0].createdAt,
+        id: messages[0].id,
+        text: messages[0].text + str,
+        // 吹き出しWidget側でインジケータからチェックマークアイコンに表示変えをする為にメタデータとして受け渡す
+        metadata: {'progress': 100},
+      );
+      messages = _messages;
+      notifyListeners();
     } else {
       List<types.TextMessage> _messages = [];
       _messages.addAll(messages);
@@ -235,6 +263,42 @@ class ChatViewModel with ChangeNotifier {
         createdAt: messages[0].createdAt,
         id: messages[0].id,
         text: messages[0].text + str,
+      );
+      messages = _messages;
+      notifyListeners();
+    }
+  }
+
+  Future<void> _addStreamWebContentsScrapingProgressMessage(
+      int progress) async {
+    if (webContentsScrapingProgressMessageStatus ==
+        StreamMessageResponseStatus.isFirst) {
+      webContentsScrapingProgressMessageStatus =
+          StreamMessageResponseStatus.isWriting;
+      List<types.TextMessage> _messages = [];
+      _messages.addAll(messages);
+      _messages.insert(
+          0,
+          types.TextMessage(
+            author: ChatUser.actionInfo,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: ChatPageUtil.randomString(),
+            text: '検索結果を解析しています… $progress%完了',
+            // 吹き出しWidget側で進捗のインジケータ制御に使うのでメタデータとして渡す
+            metadata: {'progress': progress},
+          ));
+      messages = _messages;
+      notifyListeners();
+    } else {
+      List<types.TextMessage> _messages = [];
+      _messages.addAll(messages);
+      _messages[0] = types.TextMessage(
+        author: messages[0].author,
+        createdAt: messages[0].createdAt,
+        id: messages[0].id,
+        text: '検索結果を解析しています… $progress%完了',
+        // 吹き出しWidget側で進捗のインジケータ制御に使うのでメタデータとして渡す
+        metadata: {'progress': progress},
       );
       messages = _messages;
       notifyListeners();
@@ -253,6 +317,8 @@ class ChatViewModel with ChangeNotifier {
     isShowLoadingForStream = true;
     messageStatus = StreamMessageResponseStatus.isFirst;
     actionInfoMessageStatus = StreamMessageResponseStatus.isFirst;
+    webContentsScrapingProgressMessageStatus =
+        StreamMessageResponseStatus.isFirst;
     twoDimensionSourceURLList.clear();
     notifyListeners();
 

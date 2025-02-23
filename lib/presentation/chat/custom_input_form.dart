@@ -107,7 +107,7 @@ class _CustomInputFormState extends State<CustomInputForm>
             );
           },
           child:
-              Lottie.asset("assets/lottie/lottie.json", width: 100, height: 70),
+              Lottie.asset("lottie/lottie.json", width: 100, height: 70),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 18, right: 18, bottom: 16),
