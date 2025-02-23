@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:sample_rag_chat/presentation/chat_page/source_url_list_widget.dart';
+import 'package:sample_rag_chat/presentation/chat/source_url_list_widget.dart';
 
 import '../../data_models/chat.dart';
 import '../../utilities/chat_page_util.dart';

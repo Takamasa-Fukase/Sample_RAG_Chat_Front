@@ -6,7 +6,7 @@ import '../data_models/question/question.dart';
 import '../utilities/sse.dart';
 
 class ChatRepository {
-  Future<Sse> sendStreamQuestionV3(
+  Future<Sse> sendQuestion(
       QuestionRequest body, StreamController streamController) async {
     final url = APIConst.baseUrl + APIConst.chat;
     final bodyJson = json.encode(body);

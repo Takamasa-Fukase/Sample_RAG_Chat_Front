@@ -9,26 +9,22 @@ import 'conversation_bubble.dart';
 import 'custom_input_form.dart';
 
 class ChatListView extends StatelessWidget {
-  const ChatListView(
-      {Key? key,
-      required this.width,
-      required this.user,
-      required this.messages,
-      required this.currentChatThread,
-      required this.isShowLoadingForStream,
-      required this.onTapExpandChatAreaButton,
-      required this.onTapSendButton,
-      required this.onTapNewChatButton,})
-      : super(key: key);
+  const ChatListView({
+    Key? key,
+    required this.width,
+    required this.user,
+    required this.messages,
+    required this.currentChatThread,
+    required this.isShowLoadingForStream,
+    required this.onTapSendButton,
+  }) : super(key: key);
 
   final double width;
   final types.User user;
   final List<types.Message> messages;
   final ChatThread? currentChatThread;
   final bool isShowLoadingForStream;
-  final Function() onTapExpandChatAreaButton;
   final Function(String) onTapSendButton;
-  final Function() onTapNewChatButton;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +66,6 @@ class ChatListView extends StatelessWidget {
         showUserAvatars: false,
         customBottomWidget: CustomInputForm(
           onSendButtonPressed: onTapSendButton,
-          onTapNewChatButton: onTapNewChatButton,
           isLoading: isShowLoadingForStream,
           maxTextCount: 1000,
         ),

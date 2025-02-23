@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sample_rag_chat/constants/custom_colors.dart';
-import '../responsive_widget.dart';
 
 /// チャット画面のクラス
 class CustomInputForm extends StatefulWidget {
   final Function(String) onSendButtonPressed;
-  final Function() onTapNewChatButton;
   final int maxTextCount;
   final bool isLoading;
 
   const CustomInputForm(
       {Key? key,
       required this.onSendButtonPressed,
-      required this.onTapNewChatButton,
       required this.maxTextCount,
       required this.isLoading})
       : super(key: key);
