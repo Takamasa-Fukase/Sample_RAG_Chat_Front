@@ -13,6 +13,8 @@ dependencies:
   shared_preferences: ^2.5.2
   flutter_riverpod: ^2.6.1
   json_annotation: ^4.9.0
+  flutter_chat_ui: ^1.6.6
+  flutter_chat_types:
 
 dev_dependencies:
   flutter_test:
