@@ -247,7 +247,7 @@ class ChatViewModel with ChangeNotifier {
 
     final questionBody = SendQuestionRequest(
       categoryId: 0,
-      text: '',
+      text: text,
       previousMessages: [],
     );
     isShowLoadingForStream = true;
