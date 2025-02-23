@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sample_rag_chat/constants/custom_colors.dart';
 import 'package:sample_rag_chat/presentation/chat/chat_view_model.dart';
 import '../../constants/chat_user.dart';
 import '../../utilities/error_handler.dart';
@@ -58,25 +59,26 @@ class _ChatViewState extends ConsumerState<ChatView> {
       appBar: ResponsiveWidget.isSmallScreen(context)
           ? customAppBarForSmallScreen(
               leadingWidget: IconButton(
-                  icon: Image.asset('assets/icon-SPmenu.png'),
+                  icon: Icon(Icons.menu),
                   onPressed: _scaffoldStateKey.currentState?.openDrawer),
               onTapUserIconButton: () {})
           : customAppBarForLargeScreen(
               screenSize: screenSize, onTapUserIconButton: () {}),
       body: Stack(
         children: [
-          // 背景の廊下画像
+          // 背景画像
           Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/background_image.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
+            color: CustomColor.goldLeaf,
+            // decoration: const BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage('assets/background_image.jpg'),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
           ),
-          Container(
-            color: Colors.white.withOpacity(0.5),
-          ),
+          // Container(
+          //   color: Colors.white.withOpacity(0.1),
+          // ),
           Expanded(
               child: Stack(
             children: [
@@ -88,7 +90,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                 right: 0,
                 child: Center(
                   child: Image.asset(
-                    'assets/images/fukase_thumb_up_1.png',
+                    'images/fukase_thumb_up_1.png',
                     fit: BoxFit.cover,
                   ),
                 ),
