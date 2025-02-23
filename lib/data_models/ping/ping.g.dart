@@ -6,8 +6,17 @@ part of 'ping.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PingResponse _$PingResponseFromJson(Map<String, dynamic> json) => PingResponse(
-      data: PingResponseData.fromJson(json['data'] as Map<String, dynamic>),
+PingResponse _$PingResponseFromJson(Map<String, dynamic> json) =>
+    $checkedCreate(
+      'PingResponse',
+      json,
+      ($checkedConvert) {
+        final val = PingResponse(
+          data: $checkedConvert('data',
+              (v) => PingResponseData.fromJson(v as Map<String, dynamic>)),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$PingResponseToJson(PingResponse instance) =>
@@ -16,8 +25,15 @@ Map<String, dynamic> _$PingResponseToJson(PingResponse instance) =>
     };
 
 PingResponseData _$PingResponseDataFromJson(Map<String, dynamic> json) =>
-    PingResponseData(
-      message: json['message'] as String,
+    $checkedCreate(
+      'PingResponseData',
+      json,
+      ($checkedConvert) {
+        final val = PingResponseData(
+          message: $checkedConvert('message', (v) => v as String),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$PingResponseDataToJson(PingResponseData instance) =>

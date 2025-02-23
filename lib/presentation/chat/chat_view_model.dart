@@ -53,6 +53,9 @@ class ChatViewModel with ChangeNotifier {
 
   /// MARK: - Viewの初期化タイミングに合わせて行う処理
   void onViewInitState() async {
+    // サーバーAPIとの疎通確認
+    _checkServerConnection();
+
     // このStreamはSingle subscription streamsである必要があるので、複数のlisterを持つとエラーになる
     // 万が一のケースで別のlistenerが解放されていないなどの場合には再度初期化する
     if (_answerResponseController.hasListener) {
@@ -110,7 +113,8 @@ class ChatViewModel with ChangeNotifier {
   /// Private Methods
   void _checkServerConnection() async {
     try {
-      await _pingRepository.checkServerConnection();
+      final response = await _pingRepository.checkServerConnection();
+      print('_checkServerConnection: ${response?.data.message ?? ''}');
     } on Exception catch (exception) {
       _errorController.add(exception);
     }
@@ -241,7 +245,8 @@ class ChatViewModel with ChangeNotifier {
     // 既存のconnectionをcloseする
     _connection?.close();
 
-    final questionBody = QuestionRequest(
+    final questionBody = SendQuestionRequest(
+      categoryId: 0,
       text: '',
       previousMessages: [],
     );

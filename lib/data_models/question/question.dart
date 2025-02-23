@@ -3,17 +3,19 @@ import 'package:json_annotation/json_annotation.dart';
 part 'question.g.dart';
 
 @JsonSerializable()
-class QuestionRequest {
+class SendQuestionRequest {
+  final int categoryId;
   final String text;
   final List<String> previousMessages;
 
-  QuestionRequest({
+  SendQuestionRequest({
+    required this.categoryId,
     required this.text,
     required this.previousMessages,
   });
 
-  factory QuestionRequest.fromJson(Map<String, dynamic> json) =>
-      _$QuestionRequestFromJson(json);
+  factory SendQuestionRequest.fromJson(Map<String, dynamic> json) =>
+      _$SendQuestionRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$QuestionRequestToJson(this);
+  Map<String, dynamic> toJson() => _$SendQuestionRequestToJson(this);
 }
