@@ -29,7 +29,7 @@ class Sse {
 
     // llmからトークンを受信
     httpRequest.addEventListener('progress', (event) {
-      print('受信した: ${httpRequest.responseText!.substring(progress)}');
+      // print('受信した: ${httpRequest.responseText!.substring(progress)}');
 
       final data = httpRequest.responseText!.substring(progress);
       progress += data.length;

@@ -123,7 +123,7 @@ class ChatViewModel with ChangeNotifier {
   }
 
   void _handleStreamAnswerResponseValue(dynamic value) {
-    print('_handleStreamAnswerResponseValue: $value');
+    // print('_handleStreamAnswerResponseValue: $value');
 
     // TODO: DONEじゃなくて、answerTypeID=3とかで終了の合図にして、もっとスマートに書きたい
     if (value == 'DONE') {
