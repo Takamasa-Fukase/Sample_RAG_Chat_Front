@@ -2,19 +2,27 @@ import 'package:json_annotation/json_annotation.dart';
 part 'ping.g.dart';
 
 @JsonSerializable()
-class PingResponse with _$PingResponse {
-  const factory PingResponse({
-    required PingResponseData data,
-  }) = _PingResponse;
+class PingResponse {
+  final PingResponseData data;
+
+  PingResponse({
+    required this.data
+  });
 
   factory PingResponse.fromJson(Map<String, dynamic> json) => _$PingResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PingResponseToJson(this);
 }
 
 @JsonSerializable()
-class PingResponseData with _$PingResponseData {
-  const factory PingResponseData({
-    required String message,
-  }) = _PingResponseData;
+class PingResponseData {
+  final String message;
+
+  PingResponseData({
+    required this.message,
+  });
 
   factory PingResponseData.fromJson(Map<String, dynamic> json) => _$PingResponseDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PingResponseDataToJson(this);
 }
