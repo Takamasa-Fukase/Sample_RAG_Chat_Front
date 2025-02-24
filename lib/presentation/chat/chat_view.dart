@@ -163,7 +163,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                                 ),
                                 border: Border.all(
                                   color: CustomColor.paper,
-                                  width: 1.4,
+                                  width: 2,
                                 ),
                                 // color: CustomColor.customLightBrown.withOpacity(0.8),
                               color: CustomColor.customLightBrown.withOpacity(0.9), // こっちの方がメリハリがつく気がする。印象がぼやけない。
@@ -176,7 +176,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                                 /// 人物名の表示
                                 Positioned(
                                   top: -36,
-                                  left: -1.4,
+                                  left: -2,
                                   child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: const BorderRadius.only(
@@ -184,7 +184,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                                             topRight: Radius.circular(30)),
                                         border: Border.all(
                                           color: CustomColor.paper,
-                                          width: 1.4,
+                                          width: 2,
                                         ),
                                         color: CustomColor.customLightBrown,
                                       ),

@@ -80,7 +80,7 @@ class SideMenuState extends State<SideMenu> {
     return Container(
       decoration: BoxDecoration(
         color: CustomColor.paper,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
         border: Border.all(
           color: CustomColor.blackSteel,
           width: 2,
@@ -95,9 +95,11 @@ class SideMenuState extends State<SideMenu> {
         child: InkWell(
           onTap: onTap,
           // ハイライト色
-          highlightColor: CustomColor.blackSteel.withOpacity(0.2),
+          // highlightColor: CustomColor.blackSteel.withOpacity(0.2),
+          // タップ箇所から広がる波紋の色
+          splashColor: Colors.transparent,
           // エフェクト領域にもカードと同じ角丸を適用
-          borderRadius: BorderRadius.all(Radius.circular(30)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           child: Container(
             // カードの内側の余白
             padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),

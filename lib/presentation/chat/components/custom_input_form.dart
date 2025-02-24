@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sample_rag_chat/presentation/common/custom_rounded_border_button.dart';
+
+import '../../../constants/custom_colors.dart';
 
 /// チャット画面のクラス
 class CustomInputForm extends StatefulWidget {
@@ -89,112 +92,102 @@ class _CustomInputFormState extends State<CustomInputForm>
   @override
   Widget build(BuildContext context) {
     final String textString = _textEditingController.text;
-    return Column(
-      children: [
-        AnimatedBuilder(
-          animation: _controller,
-          builder: (_, child) {
-            if (_controller.isDismissed) {
-              return Container();
-            }
-            return SizeTransition(
-              sizeFactor: _controller,
-              axis: Axis.vertical,
-              child: Align(
-                alignment: Alignment.center,
-                child: child,
-              ),
-            );
-          },
-          child:
-              Lottie.asset("lottie/lottie.json", width: 100, height: 70),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 18, right: 18, bottom: 16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxHeight: 200,
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.only(
-                              top: 6, left: 48, right: 54, bottom: 10),
-                          child: TextFormField(
-                            controller: _textEditingController,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: _maxLines,
-                            style: const TextStyle(color: Colors.black87),
-                            cursorWidth: 1.5,
-                            decoration: InputDecoration(
-                              hintText: '気になることを質問してみましょう',
-                              hintStyle: const TextStyle(color: Colors.grey),
-                              counterStyle: TextStyle(
-                                color: _isTextCountValid(textString)
-                                    ? Colors.grey
-                                    : Colors.redAccent,
-                              ),
-                              errorStyle: TextStyle(
-                                color: _isTextCountValid(textString)
-                                    ? Colors.transparent
-                                    : Colors.redAccent,
-                              ),
-                              errorText: '${widget.maxTextCount}文字以下で入力してください',
-                              errorBorder: InputBorder.none,
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              labelStyle: const TextStyle(color: Colors.white),
-                            ),
-                            focusNode: _inputFocusNode,
-                            onChanged: (text) {
-                              setState(() {
-                                _maxLines = '\n'
-                                            .allMatches(
-                                                _textEditingController.text)
-                                            .length >=
-                                        4
-                                    ? 5
-                                    : null;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 10,
-                      bottom: 10,
-                      child: Container(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          '${textString.length}/${widget.maxTextCount}',
-                          style: TextStyle(
-                            color: _isTextCountValid(textString)
-                                ? Colors.grey
-                                : Colors.redAccent,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 10,
-                      bottom: 45,
-                      child: sendButton(_isTextCountValid(textString) &&
-                          textString.isNotEmpty),
-                    ),
-                  ],
+    return Container(
+      margin: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: CustomColor.paper,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        children: [
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (_, child) {
+              if (_controller.isDismissed) {
+                return Container();
+              }
+              return SizeTransition(
+                sizeFactor: _controller,
+                axis: Axis.vertical,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: child,
                 ),
-              ),
-            ],
+              );
+            },
+            child: Lottie.asset("lottie/lottie.json", width: 100, height: 70),
           ),
-        ),
-      ],
+          Padding(
+            // padding: const EdgeInsets.only(left: 18, right: 18, bottom: 16),
+            padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 200,
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                                // top: 6, left: 48, right: 54, bottom: 10),
+                                top: 0,
+                                left: 16,
+                                right: 54,
+                                bottom: 0),
+                            child: TextFormField(
+                              showCursor: true,
+                              cursorColor: CustomColor.blackSteel,
+                              controller: _textEditingController,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: _maxLines,
+                              style: const TextStyle(
+                                color: CustomColor.blackSteel,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              cursorWidth: 1.5,
+                              decoration: InputDecoration(
+                                  hintText: '気になることを聞いてみましょう',
+                                  hintStyle: const TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                  border: InputBorder.none),
+                              focusNode: _inputFocusNode,
+                              onChanged: (text) {
+                                setState(() {
+                                  _maxLines = '\n'
+                                              .allMatches(
+                                                  _textEditingController.text)
+                                              .length >=
+                                          4
+                                      ? 5
+                                      : null;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        // bottom: 45,
+                        child: sendButton(_isTextCountValid(textString) &&
+                            textString.isNotEmpty),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -209,25 +202,15 @@ class _CustomInputFormState extends State<CustomInputForm>
 
   /// 送信ボタン
   Widget sendButton(bool isEnabled) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-        elevation: MaterialStateProperty.all<double>(0.0),
-        minimumSize: MaterialStateProperty.all<Size>(const Size(20, 18)),
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            const EdgeInsets.all(10.0)),
-      ),
+    return IconButton(
+      color: CustomColor.blackSteel,
       onPressed: isEnabled
           ? () {
               // 送信ボタン押下時の処理
               _sendText();
             }
           : null,
-      child: SizedBox(
-        width: 20,
-        height: 18,
-        child: Icon(Icons.send),
-      ),
+      icon: Icon(Icons.send),
     );
   }
 }
