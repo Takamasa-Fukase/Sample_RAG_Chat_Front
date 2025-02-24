@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sample_RAG_Chat',
+      debugShowCheckedModeBanner: false,
       home: ChatView(),
     );
   }

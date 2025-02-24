@@ -12,13 +12,13 @@ PreferredSize customAppBarForLargeScreen({
     child: Container(
       height: 50,
       decoration: BoxDecoration(
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     offset: const Offset(0, 2),
-        //     blurRadius: 1.0,
-        //   ),
-        // ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: const Offset(0, 2),
+            blurRadius: 1.0,
+          ),
+        ],
         color: CustomColor.goldLeaf,
       ),
       child: Row(
