@@ -52,9 +52,8 @@ class _ChatViewState extends ConsumerState<ChatView> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(chatViewModel);
     final screenSize = MediaQuery.of(context).size;
-    final double largeWidth = ChatPageConst.sideMenuWidth;
     final double chatPageHeight = screenSize.height;
-    final double defaultChatPageHeight = chatPageHeight * 0.53;
+    final double defaultChatPageHeight = chatPageHeight * 0.46;
 
     /// ChatPageのメインコンテンツの描画処理
     return Scaffold(
@@ -119,8 +118,9 @@ class _ChatViewState extends ConsumerState<ChatView> {
                       children: [
                         /// 人物画像
                         Positioned(
-                          top: screenSize.height * 0.03,
-                          bottom: 0,
+                          top: screenSize.height * 0.00,
+                          // bottom: 400,
+                          bottom: defaultChatPageHeight,
                           left: 0,
                           right: 0,
                           child: Center(
@@ -133,7 +133,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
 
                         /// チャットの窓部分
                         Positioned(
-                          bottom: 0,
+                          bottom: 16,
                           left: 0,
                           right: 0,
                           child: Stack(
@@ -146,7 +146,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                               ),
 
                               Padding(
-                                padding: const EdgeInsets.only(left: 16, right: 16),
+                                padding: const EdgeInsets.only(left: 0, right: 16),
                                 child: Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(color: Colors.black54),
