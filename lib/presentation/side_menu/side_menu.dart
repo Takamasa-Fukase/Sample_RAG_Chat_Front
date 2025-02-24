@@ -60,14 +60,14 @@ class SideMenuState extends State<SideMenu> {
                               }
                             });
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
 
               // 下の余白
               const SizedBox(
-                height: 100,
+                height: 200,
               ),
             ],
           ),
@@ -78,17 +78,18 @@ class SideMenuState extends State<SideMenu> {
 
   Widget listItem({required String title, required Function() onTap}) {
     return Container(
-      decoration: BoxDecoration(
-        color: CustomColor.paper,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        border: Border.all(
-          color: CustomColor.blackSteel,
-          width: 2,
-        ),
-      ),
+      color: CustomColor.goldLeaf,
+      // decoration: BoxDecoration(
+      //   color: CustomColor.paper,
+      //   borderRadius: BorderRadius.all(Radius.circular(30)),
+      //   border: Border.all(
+      //     color: CustomColor.blackSteel,
+      //     width: 2,
+      //   ),
+      // ),
       // カード自体を浮いて見せる為のマージン
-      margin: EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
-      height: 160,
+      // margin: EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
+      height: 100,
       child: Material(
         color: Colors.transparent,
         // タップ時のエフェクトの為にInkwellを使用
@@ -99,7 +100,7 @@ class SideMenuState extends State<SideMenu> {
           // タップ箇所から広がる波紋の色
           splashColor: Colors.transparent,
           // エフェクト領域にもカードと同じ角丸を適用
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          // borderRadius: BorderRadius.all(Radius.circular(30)),
           child: Container(
             // カードの内側の余白
             padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),

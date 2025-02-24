@@ -113,10 +113,13 @@ class _CustomInputFormState extends State<CustomInputForm>
             child: Lottie.asset("lottie/lottie.json", width: 100, height: 70),
           ),
           Container(
-            margin: EdgeInsets.all(12),
+            // margin: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: CustomColor.paper,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+              ),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -149,7 +152,7 @@ class _CustomInputFormState extends State<CustomInputForm>
                               ),
                               cursorWidth: 1.5,
                               decoration: InputDecoration(
-                                  hintText: '気になることを聞いてみましょう',
+                                  hintText: 'Ask anything',
                                   hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontWeight: FontWeight.bold,

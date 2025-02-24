@@ -88,7 +88,6 @@ class _ChatViewState extends ConsumerState<ChatView> {
           Container(
             color: CustomColor.goldLeaf,
           ),
-
           Row(children: [
             /// カテゴリリスト（中サイズ以上の画面の時は常時表示する）
             Visibility(
@@ -110,7 +109,8 @@ class _ChatViewState extends ConsumerState<ChatView> {
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/background_image_barcelona.jpg'),
+                      image: AssetImage(
+                          'assets/images/background_image_barcelona.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -153,20 +153,39 @@ class _ChatViewState extends ConsumerState<ChatView> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        // padding: const EdgeInsets.only(left: 16, right: 16),
+                        padding: (){
+                          final chatAreaWidth = screenSize.width - ChatPageConst.sideMenuWidth;
+                          if (ResponsiveWidget.isLargeScreen(context)) {
+                            return EdgeInsets.only(
+                              left: chatAreaWidth * 0.1,
+                              right: chatAreaWidth * 0.1,
+                            );
+                          } else {
+                            return EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                            );
+                          }
+                        }(),
+                        // padding: const EdgeInsets.only(
+                        //   left: 116,
+                        //   right: 116,
+                        // ),
                         child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                ),
-                                border: Border.all(
-                                  color: CustomColor.paper,
-                                  width: 2,
-                                ),
-                                // color: CustomColor.customLightBrown.withOpacity(0.8),
-                              color: CustomColor.customLightBrown.withOpacity(0.9), // こっちの方がメリハリがつく気がする。印象がぼやけない。
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              border: Border.all(
+                                color: CustomColor.paper,
+                                width: 2,
+                              ),
+                              // color: CustomColor.customLightBrown.withOpacity(0.8),
+                              color: CustomColor.customLightBrown.withOpacity(
+                                  0.9), // こっちの方がメリハリがつく気がする。印象がぼやけない。
                             ),
                             height: defaultChatPageHeight,
                             width: screenSize.width,
