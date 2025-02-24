@@ -60,28 +60,32 @@ class _ChatViewState extends ConsumerState<ChatView> {
       key: _scaffoldStateKey,
       appBar: ResponsiveWidget.isSmallScreen(context)
           ? customAppBarForSmallScreen(
-              leadingWidget: IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: _scaffoldStateKey.currentState?.openDrawer),
-              onTapUserIconButton: () {})
+          leadingWidget: IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: _scaffoldStateKey.currentState?.openDrawer),
+          onTapUserIconButton: () {})
           : customAppBarForLargeScreen(
-              screenSize: screenSize, onTapUserIconButton: () {}),
+          screenSize: screenSize, onTapUserIconButton: () {}),
       drawer: ResponsiveWidget.isSmallScreen(context)
 
-          /// カテゴリリスト（小サイズの時はドロワー内に表示する）
+      /// カテゴリリスト（小サイズの時はドロワー内に表示する）
           ? Drawer(
-              backgroundColor: Colors.transparent,
-              width: ChatPageConst.sideMenuWidth,
-              child: Container(
-                padding: MediaQuery.of(context).size.width < 391
-                    ? const EdgeInsets.only(right: 32, top: 8)
-                    : const EdgeInsets.only(top: 8),
-                child: SizedBox(
-                    width: ChatPageConst.sideMenuWidth,
-                    child: SideMenu(
-                      onItemSelected: (index) {},
-                    )),
-              ))
+          backgroundColor: Colors.transparent,
+          width: ChatPageConst.sideMenuWidth,
+          child: Container(
+            padding: MediaQuery.of(context).size.width < 391
+                ? const EdgeInsets.only(right: 32, top: 8)
+                : const EdgeInsets.only(top: 8),
+            child: SizedBox(
+                width: ChatPageConst.sideMenuWidth,
+                child: SideMenu(
+                  categories: viewModel.categories,
+                  selectedCategoryIndex: viewModel.selectedCategoryIndex,
+                  onItemSelected: (index) {
+                    viewModel.onSideMenuItemSelected(index);
+                  },
+                )),
+          ))
           : null,
       body: Stack(
         children: [
@@ -94,9 +98,13 @@ class _ChatViewState extends ConsumerState<ChatView> {
               visible: !ResponsiveWidget.isSmallScreen(context),
               child: SizedBox(
                 width:
-                    min(screenSize.width * 0.35, ChatPageConst.sideMenuWidth),
+                min(screenSize.width * 0.35, ChatPageConst.sideMenuWidth),
                 child: SideMenu(
-                  onItemSelected: (index) {},
+                  categories: viewModel.categories,
+                  selectedCategoryIndex: viewModel.selectedCategoryIndex,
+                  onItemSelected: (index) {
+                    viewModel.onSideMenuItemSelected(index);
+                  },
                 ),
               ),
             ),
@@ -104,164 +112,164 @@ class _ChatViewState extends ConsumerState<ChatView> {
             /// チャット画面部分
             Expanded(
                 child: Stack(
-              children: [
-                // 背景画像
-                Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          'assets/images/background_image_barcelona.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                // Container(
-                //   // color: Colors.white.withOpacity(0.1),
-                //   color: CustomColor.goldLeaf.withOpacity(0.6),
-                // ),
-                Container(
-                  color: Colors.black.withOpacity(0.6),
-                ),
-
-                /// 人物画像
-                Positioned(
-                  top: screenSize.height * 0.02,
-                  // bottom: 400,
-                  bottom: defaultChatPageHeight + 16,
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: Image.asset(
-                      'images/fukase_thumb_up_1.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-
-                /// チャットの窓部分
-                Positioned(
-                  bottom: 16,
-                  left: 0,
-                  right: 0,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: <Widget>[
-                      // 領域確保用の透明なやつ
-                      SizedBox(
-                        height: defaultChatPageHeight + 36,
-                        width: screenSize.width,
+                  children: [
+                    // 背景画像
+                    Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/${viewModel.categories[viewModel.selectedCategoryIndex].backgroundImageName}'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
+                    ),
+                    // Container(
+                    //   // color: Colors.white.withOpacity(0.1),
+                    //   color: CustomColor.goldLeaf.withOpacity(0.6),
+                    // ),
+                    Container(
+                      color: Colors.black.withOpacity(0.6),
+                    ),
 
-                      Padding(
-                        // padding: const EdgeInsets.only(left: 16, right: 16),
-                        padding: (){
-                          final chatAreaWidth = screenSize.width - ChatPageConst.sideMenuWidth;
-                          if (ResponsiveWidget.isLargeScreen(context)) {
-                            return EdgeInsets.only(
-                              left: chatAreaWidth * 0.1,
-                              right: chatAreaWidth * 0.1,
-                            );
-                          } else {
-                            return EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                            );
-                          }
-                        }(),
-                        // padding: const EdgeInsets.only(
-                        //   left: 116,
-                        //   right: 116,
-                        // ),
-                        child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              ),
-                              border: Border.all(
-                                color: CustomColor.paper,
-                                width: 2,
-                              ),
-                              // color: CustomColor.customLightBrown.withOpacity(0.8),
-                              color: CustomColor.customLightBrown.withOpacity(
-                                  0.9), // こっちの方がメリハリがつく気がする。印象がぼやけない。
-                            ),
-                            height: defaultChatPageHeight,
+                    /// 人物画像
+                    Positioned(
+                      top: screenSize.height * 0.02,
+                      // bottom: 400,
+                      bottom: defaultChatPageHeight + 16,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: Image.asset(
+                          'images/${viewModel.categories[viewModel.selectedCategoryIndex].personImageName}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+
+                    /// チャットの窓部分
+                    Positioned(
+                      bottom: 16,
+                      left: 0,
+                      right: 0,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: <Widget>[
+                          // 領域確保用の透明なやつ
+                          SizedBox(
+                            height: defaultChatPageHeight + 36,
                             width: screenSize.width,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                /// 人物名の表示
-                                Positioned(
-                                  top: -36,
-                                  left: -2,
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(30)),
-                                        border: Border.all(
-                                          color: CustomColor.paper,
-                                          width: 2,
-                                        ),
-                                        color: CustomColor.customLightBrown,
-                                      ),
-                                      height: 36,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10,
-                                            left: 16,
-                                            right: 28,
-                                            bottom: 0),
-                                        child: Text(
-                                          'UltraFukase',
-                                          style: const TextStyle(
-                                            color: CustomColor.paper,
-                                            fontFamily: 'Copperplate-Heavy',
-                                            fontSize: 12,
-                                            height: 1.2,
+                          ),
+
+                          Padding(
+                            // padding: const EdgeInsets.only(left: 16, right: 16),
+                            padding: (){
+                              final chatAreaWidth = screenSize.width - ChatPageConst.sideMenuWidth;
+                              if (ResponsiveWidget.isLargeScreen(context)) {
+                                return EdgeInsets.only(
+                                  left: chatAreaWidth * 0.1,
+                                  right: chatAreaWidth * 0.1,
+                                );
+                              } else {
+                                return EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                );
+                              }
+                            }(),
+                            // padding: const EdgeInsets.only(
+                            //   left: 116,
+                            //   right: 116,
+                            // ),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                  border: Border.all(
+                                    color: CustomColor.paper,
+                                    width: 2,
+                                  ),
+                                  // color: CustomColor.customLightBrown.withOpacity(0.8),
+                                  color: CustomColor.customLightBrown.withOpacity(
+                                      0.9), // こっちの方がメリハリがつく気がする。印象がぼやけない。
+                                ),
+                                height: defaultChatPageHeight,
+                                width: screenSize.width,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    /// 人物名の表示
+                                    Positioned(
+                                      top: -36,
+                                      left: -2,
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: const BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                topRight: Radius.circular(30)),
+                                            border: Border.all(
+                                              color: CustomColor.paper,
+                                              width: 2,
+                                            ),
+                                            color: CustomColor.customLightBrown,
                                           ),
-                                        ),
-                                      )),
-                                ),
+                                          height: 36,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10,
+                                                left: 16,
+                                                right: 28,
+                                                bottom: 0),
+                                            child: Text(
+                                              viewModel.categories[viewModel.selectedCategoryIndex].personName,
+                                              style: const TextStyle(
+                                                color: CustomColor.paper,
+                                                fontFamily: 'Copperplate-Heavy',
+                                                fontSize: 12,
+                                                height: 1.2,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
 
-                                // 擦りガラス風エフェクト部分
-                                // Positioned(
-                                //   child: ClipRRect(
-                                //     borderRadius: const BorderRadius
-                                //         .only(
-                                //         topRight: Radius.circular(10)),
-                                //     child: BackdropFilter(
-                                //       filter: ImageFilter.blur(
-                                //           sigmaX: 10, sigmaY: 10),
-                                //       child: Container(
-                                //         // color: Colors.black.withOpacity(0),
-                                //         decoration: const BoxDecoration(
-                                //           // color: Colors.black.withOpacity(0.3),
-                                //             color: Color.fromRGBO(
-                                //                 209, 209, 209, 0.3)),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
+                                    // 擦りガラス風エフェクト部分
+                                    // Positioned(
+                                    //   child: ClipRRect(
+                                    //     borderRadius: const BorderRadius
+                                    //         .only(
+                                    //         topRight: Radius.circular(10)),
+                                    //     child: BackdropFilter(
+                                    //       filter: ImageFilter.blur(
+                                    //           sigmaX: 10, sigmaY: 10),
+                                    //       child: Container(
+                                    //         // color: Colors.black.withOpacity(0),
+                                    //         decoration: const BoxDecoration(
+                                    //           // color: Colors.black.withOpacity(0.3),
+                                    //             color: Color.fromRGBO(
+                                    //                 209, 209, 209, 0.3)),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
 
-                                ChatListView(
-                                  messages: viewModel.messages,
-                                  currentChatThread:
+                                    ChatListView(
+                                      messages: viewModel.messages,
+                                      currentChatThread:
                                       viewModel.currentChatThread,
-                                  isShowLoadingForStream:
+                                      isShowLoadingForStream:
                                       viewModel.isShowLoadingForStream,
-                                  onTapSendButton: viewModel.onTapSendButton,
-                                ),
-                              ],
-                            )),
+                                      onTapSendButton: viewModel.onTapSendButton,
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ))
+                    ),
+                  ],
+                ))
           ]),
         ],
       ),

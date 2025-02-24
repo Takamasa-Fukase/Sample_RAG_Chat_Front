@@ -9,6 +9,7 @@ import 'package:sample_rag_chat/repositories/ping_repository.dart';
 import '../../constants/chat_user.dart';
 import '../../data_models/answer/answer.dart';
 import '../../data_models/answer_type.dart';
+import '../../data_models/category/category.dart';
 import '../../data_models/chat.dart';
 import '../../data_models/question/question.dart';
 import '../../data_models/stream_message_response_status.dart';
@@ -17,7 +18,7 @@ import '../../utilities/sse.dart';
 
 /// ViewModelへのグローバルアクセスを提供するProvider
 final chatViewModel = ChangeNotifierProvider(
-  (context) => ChatViewModel(),
+      (context) => ChatViewModel(),
 );
 
 /// ViewModel
@@ -31,6 +32,33 @@ class ChatViewModel with ChangeNotifier {
 
   List<types.TextMessage> messages = [];
   bool isShowLoadingForStream = false;
+  List<Category> categories = [
+    Category(
+      id: 0,
+      categoryName: 'UltraFukase in Tokyo, 2025',
+      personName: 'UltraFukase',
+      personImageName: 'fukase_image_2025_2_2.png',
+      backgroundImageName: 'background_image_2025_4_4.jpeg',
+      introductionText: 'どうも！\n\n2025年2月末時点のウルトラ深瀬です。\n\nこのサイトは、私・深瀬の過去の経歴や活動、その時々の状況や当時考えていたことなどを知っていただくために作成しました。\n\n年代ごとの当時の深瀬に直接生の声を尋ねることができますので、画面下部の入力フォームから何か質問してみてください！答えられる範囲でお答えします！',
+    ),
+    Category(
+      id: 1,
+      categoryName: 'Taka in Barcelona, 2022',
+      personName: 'Taka',
+      personImageName: 'fukase_image_2022_2.png',
+      backgroundImageName: 'background_image_2022_1.jpg',
+      introductionText: 'Hola amigo.\n\n2022年にバルセロナでワーホリしている時の深瀬です。\n\nカタコトのスペイン語を喋ります。こちらではTakaと名乗っています。とにかく毎日天気が良くて最高です。',
+    ),
+    Category(
+      id: 2,
+      categoryName: 'Fukase in Nagano, 2019',
+      personName: 'Fukase',
+      personImageName: 'fukase_image_2019_1_2.png',
+      backgroundImageName: 'background_image_2019_2.JPG',
+      introductionText: 'お疲れ様です！\n\n2019年に長野本社でしろたんの商品企画をしている時の深瀬です。\n\n背景に写っているのは２メートルしろたんで、手に持っているのは「深瀬たん」という、デザイナーさんが作って下さった深瀬の髪型をしたしろたんです。',
+    ),
+  ];
+  int selectedCategoryIndex = 0;
 
   /// MARK: - 画面更新を発火する必要がない変数群（変更があった場合は、State内の変数の変更による再描画時に参照されて画面に反映される）
   ChatThread? currentChatThread = ChatThread(
@@ -55,6 +83,8 @@ class ChatViewModel with ChangeNotifier {
 
   /// MARK: - Viewの初期化タイミングに合わせて行う処理
   void onViewInitState() async {
+    onSideMenuItemSelected(0);
+
     // サーバーAPIとの疎通確認
     _checkServerConnection();
 
@@ -65,8 +95,8 @@ class ChatViewModel with ChangeNotifier {
     }
     _answerResponseSubscription =
         _answerResponseController.stream.listen((value) async {
-      _handleStreamAnswerResponseValue(value);
-    });
+          _handleStreamAnswerResponseValue(value);
+        });
   }
 
   /// 解放時に実行したい処理
@@ -78,25 +108,6 @@ class ChatViewModel with ChangeNotifier {
     _answerResponseSubscription?.cancel();
   }
 
-  void resetChatPageData() {
-    currentChatThread = null;
-    // connectionをcloseする
-    _connection?.close();
-    messages = [];
-    isShowLoadingForStream = false;
-
-    notifyListeners();
-  }
-
-  Future<void> addMessage(types.TextMessage message) async {
-    List<types.TextMessage> _messages = [];
-    _messages.addAll(messages);
-    _messages.insert(0, message);
-    messages = _messages;
-    notifyListeners();
-    currentChatThread?.messages += [message];
-  }
-
   void onTapSendButton(String text) {
     final textMessage = types.TextMessage(
       author: ChatUser.user,
@@ -106,10 +117,24 @@ class ChatViewModel with ChangeNotifier {
     );
 
     // 自分の入力メッセージをスレッドに表示
-    addMessage(textMessage);
+    _addMessage(textMessage);
 
     // 入力内容をAIに送信
     _sendQuestion(textMessage.text);
+  }
+
+  void onSideMenuItemSelected(int index) {
+    selectedCategoryIndex = index;
+    notifyListeners();
+
+    _resetChatPageData();
+    final introductionMessage = types.TextMessage(
+      author: ChatUser.chatBot,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: ChatPageUtil.randomString(),
+      text: categories[selectedCategoryIndex].introductionText,
+    );
+    _addMessage(introductionMessage);
   }
 
   /// Private Methods
@@ -143,19 +168,19 @@ class ChatViewModel with ChangeNotifier {
       // jsonをパースしてクラスに変換する
       final Map<String, dynamic> responseJson = json.decode(value);
       final StreamAnswerResponseData streamAnswerResponse =
-          StreamAnswerResponseData.fromJson(responseJson);
+      StreamAnswerResponseData.fromJson(responseJson);
       // レスポンスの種別を判別
       final AnswerType answerType =
-          getAnswerTypeFromId(streamAnswerResponse.answerTypeId);
+      getAnswerTypeFromId(streamAnswerResponse.answerTypeId);
 
       // レスポンスの種別ごとに処理
       switch (answerType) {
-        // FunctionCalling発動時のアクション内容を取り出して表示
+      // FunctionCalling発動時のアクション内容を取り出して表示
         case AnswerType.actionInfo:
           final actionPrefixText =
-              (streamAnswerResponse.actionInfo?.actionPrefix != null)
-                  ? '${streamAnswerResponse.actionInfo?.actionPrefix}\n'
-                  : '';
+          (streamAnswerResponse.actionInfo?.actionPrefix != null)
+              ? '${streamAnswerResponse.actionInfo?.actionPrefix}\n'
+              : '';
           // もしactionPrefixがあったらisFirstとして扱い、なかったらisWritingにする
           actionInfoMessageStatus = (actionPrefixText.isNotEmpty)
               ? StreamMessageResponseStatus.isFirst
@@ -165,33 +190,42 @@ class ChatViewModel with ChangeNotifier {
           _addStreamActionInfoMessage(text);
           break;
 
-        // 外部データ検索が行われた場合のソースURLを取り出して表示
+      // 外部データ検索が行われた場合のソースURLを取り出して表示
         case AnswerType.sourceUrlList:
           twoDimensionSourceURLList += [
             streamAnswerResponse.sourceUrlList ?? []
           ];
           break;
 
-        // 最終的な回答の断片を表示
+      // 最終的な回答の断片を表示
         case AnswerType.partOfFinalAnswerText:
           final text = streamAnswerResponse.partOfFinalAnswerText;
           _addStreamMessage(text ?? '');
           break;
 
-        // アクション情報の出力の完了通知
+      // アクション情報の出力の完了通知
         case AnswerType.actionInputGenerationCompleted:
-          // actionInfoMessageStatusをisLastに変更して空文字の追加で表示を更新し、終了する
+        // actionInfoMessageStatusをisLastに変更して空文字の追加で表示を更新し、終了する
           actionInfoMessageStatus = StreamMessageResponseStatus.isLast;
           _addStreamActionInfoMessage('');
           break;
 
-        // 外部データ検索結果のスクレイピングなどの重い処理の進捗を割合表示するための値
+      // 外部データ検索結果のスクレイピングなどの重い処理の進捗を割合表示するための値
         case AnswerType.webContentsScrapingProgress:
           _addStreamWebContentsScrapingProgressMessage(
               streamAnswerResponse.webContentsScrapingProgress ?? 0);
           break;
       }
     }
+  }
+
+  Future<void> _addMessage(types.TextMessage message) async {
+    List<types.TextMessage> _messages = [];
+    _messages.addAll(messages);
+    _messages.insert(0, message);
+    messages = _messages;
+    notifyListeners();
+    currentChatThread?.messages += [message];
   }
 
   Future<void> _addStreamMessage(String str, [bool saveToDB = true]) async {
@@ -329,5 +363,15 @@ class ChatViewModel with ChangeNotifier {
     } on Exception catch (exception) {
       _errorController.add(exception);
     }
+  }
+
+  void _resetChatPageData() {
+    currentChatThread = null;
+    // connectionをcloseする
+    _connection?.close();
+    messages = [];
+    isShowLoadingForStream = false;
+
+    notifyListeners();
   }
 }
