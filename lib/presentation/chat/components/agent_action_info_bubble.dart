@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import '../../../constants/chat_page_const.dart';
+import '../../../constants/custom_colors.dart';
 import '../../common/responsive_widget.dart';
 
 class AgentActionInfoBubble extends StatelessWidget {
@@ -14,16 +15,20 @@ class AgentActionInfoBubble extends StatelessWidget {
     final sideMenuWidth = (ResponsiveWidget.isSmallScreen(context))
         ? 0
         : ChatPageConst.sideMenuWidth;
-    final chatWindowWidth = MediaQuery.of(context).size.width - sideMenuWidth;
+    final chatWindowWidth = MediaQuery
+        .of(context)
+        .size
+        .width - sideMenuWidth;
     // chatVMでmessage配列に追加する時にtextMessageのメタデータに仕込んだprogressの値を取り出す
     final int? progress = textMessage.metadata?['progress'];
     return Container(
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(8),
         child: Container(
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.7),
-              borderRadius: const BorderRadius.all(Radius.circular(40)),
+              color: CustomColor.customDarkBrown,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              border: Border.all(color: CustomColor.paper, width: 2),
             ),
             padding: const EdgeInsets.all(16),
             child: ConstrainedBox(
@@ -36,7 +41,7 @@ class AgentActionInfoBubble extends StatelessWidget {
                     // progressが100（完了）ならチェックマークアイコンを渡す
                       const Padding(
                         padding: EdgeInsets.only(right: 12),
-                        child: Icon(Icons.check, size: 20, color: Colors.green),
+                        child: Icon(Icons.check, size: 20, color: CustomColor.paper),
                       )
                     else
                     // progressが100以外（処理中）なら丸型インジケータを渡す
@@ -49,16 +54,17 @@ class AgentActionInfoBubble extends StatelessWidget {
                         child: CircularProgressIndicator(
                           // 0.0 ~ 1.0の値に変換する（nullの場合はnullのままにする）
                           value: (progress != null) ? (progress / 100) : null,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.green.withOpacity(0.8)),
-                          color: Colors.green,
-                          backgroundColor: Colors.white,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              CustomColor.paper.withOpacity(0.8)),
+                          color: CustomColor.paper,
+                          backgroundColor: CustomColor.blackSteel,
                         ),
                       ),
 
                     Flexible(
                       child: Text(
                         textMessage.text,
-                        style: const TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 10, color: CustomColor.paper),
                       ),
                     ),
                   ],

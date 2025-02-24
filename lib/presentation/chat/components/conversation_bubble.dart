@@ -4,6 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sample_rag_chat/constants/chat_page_const.dart';
 import 'package:sample_rag_chat/presentation/chat/components/source_url_list_widget.dart';
 import '../../../constants/chat_user.dart';
+import '../../../constants/custom_colors.dart';
 import '../../../data_models/chat.dart';
 import '../../../utilities/chat_page_util.dart';
 import '../../../utilities/url_launcher_util.dart';
@@ -28,26 +29,30 @@ class ConversationBubble extends StatelessWidget {
     final sideMenuWidth = (ResponsiveWidget.isSmallScreen(context))
         ? 0
         : ChatPageConst.sideMenuWidth;
-    final chatWindowWidth = MediaQuery.of(context).size.width - sideMenuWidth;
+    final chatWindowWidth = (ResponsiveWidget.isLargeScreen(context))
+        ? (MediaQuery.of(context).size.width - sideMenuWidth) * 0.8
+        : MediaQuery.of(context).size.width - sideMenuWidth;
 
     return GestureDetector(
-        onDoubleTap: () {
-
-        },
+        onDoubleTap: () {},
         child: Container(
           alignment: (textMessage.author == ChatUser.user)
               ? Alignment.centerRight
               : Alignment.centerLeft,
-          padding:
-          const EdgeInsets.only(top: 4, left: 12, right: 12, bottom: 4),
+          padding: const EdgeInsets.only(top: 4, left: 8, right: 8, bottom: 4),
           child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: chatWindowWidth * 0.85),
               child: Container(
                   decoration: BoxDecoration(
-                    color: (isSentByAI)
-                        ? Colors.white
-                        : const Color.fromRGBO(72, 113, 239, 1),
+                    color:
+                        (isSentByAI) ? CustomColor.goldLeaf : CustomColor.paper,
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                      color: (isSentByAI)
+                          ? CustomColor.paper
+                          : CustomColor.blackSteel,
+                      width: 2,
+                    ),
                   ),
                   child: Column(
                     /// 外側のColumnでは「詳細資料：」の部分を左寄せにするために.startを指定
@@ -56,10 +61,11 @@ class ConversationBubble extends StatelessWidget {
                       Container(
                         decoration: const BoxDecoration(
                             border: Border(
-                              /// Dividerの代わりにボトムにだけ枠線を描画している
-                              /// （Dividerだと横幅を指定しないと最大限に広がってしまうが、なるべく小さくしたい時には使えない為）
-                              bottom: BorderSide(color: Colors.grey, width: 0.5),
-                            )),
+                          /// Dividerの代わりにボトムにだけ枠線を描画している
+                          /// （Dividerだと横幅を指定しないと最大限に広がってしまうが、なるべく小さくしたい時には使えない為）
+                          bottom:
+                              BorderSide(color: CustomColor.paper, width: 0.5),
+                        )),
                         child: Column(
                           /// 内側のColumnではフィードバックボタン部分を右寄せにするために.end指定
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -82,11 +88,17 @@ class ConversationBubble extends StatelessWidget {
                                   UrlLauncherUtil.launchURL(href);
                                 },
                                 styleSheetTheme:
-                                MarkdownStyleSheetBaseTheme.platform,
+                                    MarkdownStyleSheetBaseTheme.platform,
                                 styleSheet: MarkdownStyleSheet(
                                   p: isSentByAI
-                                      ? const TextStyle()
-                                      : const TextStyle(color: Colors.white),
+                                      ? const TextStyle(
+                                          color: CustomColor.blackSteel,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)
+                                      : const TextStyle(
+                                          color: CustomColor.blackSteel,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -98,7 +110,7 @@ class ConversationBubble extends StatelessWidget {
                       (sourceUrlList.isNotEmpty)
                           ? SourceUrlListWidget(urlList: sourceUrlList)
 
-                      /// 空のContainerを返す際に明示的に横幅を0に指定しないと最大限に広がってしまう為指定する
+                          /// 空のContainerを返す際に明示的に横幅を0に指定しないと最大限に広がってしまう為指定する
                           : Container(width: 0),
                     ],
                   ))),
