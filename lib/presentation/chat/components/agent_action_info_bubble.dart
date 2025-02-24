@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import '../common/responsive_widget.dart';
+import '../../../constants/chat_page_const.dart';
+import '../../common/responsive_widget.dart';
 
 class AgentActionInfoBubble extends StatelessWidget {
   const AgentActionInfoBubble({required this.textMessage, Key? key})
@@ -12,7 +13,7 @@ class AgentActionInfoBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final sideMenuWidth = (ResponsiveWidget.isSmallScreen(context))
         ? 0
-        : (456);
+        : ChatPageConst.sideMenuWidth;
     final chatWindowWidth = MediaQuery.of(context).size.width - sideMenuWidth;
     // chatVMでmessage配列に追加する時にtextMessageのメタデータに仕込んだprogressの値を取り出す
     final int? progress = textMessage.metadata?['progress'];

@@ -11,7 +11,7 @@ import '../../data_models/answer/answer.dart';
 import '../../data_models/answer_type.dart';
 import '../../data_models/chat.dart';
 import '../../data_models/question/question.dart';
-import '../../data_models/question/stream_message_response_status.dart';
+import '../../data_models/stream_message_response_status.dart';
 import '../../utilities/chat_page_util.dart';
 import '../../utilities/sse.dart';
 

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:sample_rag_chat/presentation/chat/source_url_list_widget.dart';
-import '../../constants/chat_user.dart';
-import '../../data_models/chat.dart';
-import '../../utilities/chat_page_util.dart';
-import '../../utilities/url_launcher_util.dart';
-import '../common/responsive_widget.dart';
+import 'package:sample_rag_chat/constants/chat_page_const.dart';
+import 'package:sample_rag_chat/presentation/chat/components/source_url_list_widget.dart';
+import '../../../constants/chat_user.dart';
+import '../../../data_models/chat.dart';
+import '../../../utilities/chat_page_util.dart';
+import '../../../utilities/url_launcher_util.dart';
+import '../../common/responsive_widget.dart';
 
 class ConversationBubble extends StatelessWidget {
   const ConversationBubble({
@@ -26,7 +27,7 @@ class ConversationBubble extends StatelessWidget {
 
     final sideMenuWidth = (ResponsiveWidget.isSmallScreen(context))
         ? 0
-        : 456;
+        : ChatPageConst.sideMenuWidth;
     final chatWindowWidth = MediaQuery.of(context).size.width - sideMenuWidth;
 
     return GestureDetector(
