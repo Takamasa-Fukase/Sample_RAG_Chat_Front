@@ -78,7 +78,6 @@ class SideMenuState extends State<SideMenu> {
 
   Widget listItem({required String title, required Function() onTap}) {
     return Container(
-      color: CustomColor.goldLeaf,
       // decoration: BoxDecoration(
       //   color: CustomColor.paper,
       //   borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -89,7 +88,6 @@ class SideMenuState extends State<SideMenu> {
       // ),
       // カード自体を浮いて見せる為のマージン
       // margin: EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
-      height: 100,
       child: Material(
         color: Colors.transparent,
         // タップ時のエフェクトの為にInkwellを使用
@@ -103,13 +101,29 @@ class SideMenuState extends State<SideMenu> {
           // borderRadius: BorderRadius.all(Radius.circular(30)),
           child: Container(
             // カードの内側の余白
+            height: 100,
             padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),
-            child: Text(
-              title,
-              style: TextStyle(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.circle,
                   color: CustomColor.blackSteel,
-                  fontSize: 16,
-                  fontFamily: 'Copperplate-Heavy'),
+                  size: 12,
+                ),
+
+                SizedBox(width: 8,),
+
+                Flexible(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: CustomColor.blackSteel,
+                      fontSize: 16,
+                      fontFamily: 'Copperplate-Heavy',
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
