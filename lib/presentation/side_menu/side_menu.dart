@@ -27,6 +27,8 @@ class SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return SafeArea(
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -64,8 +66,9 @@ class SideMenuState extends State<SideMenu> {
               ),
 
               // 下の余白
-              const SizedBox(
-                height: 200,
+              SizedBox(
+                // height: 200,
+                height: screenSize.height - (100 * widget.categories.length),
               ),
             ],
           ),
