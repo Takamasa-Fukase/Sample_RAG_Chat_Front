@@ -28,3 +28,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Copperplate
+      fonts:
+        - asset: assets/fonts/copperplate.otf
+
+    - family: Copperplate-Heavy
+      fonts:
+        - asset: assets/fonts/copperplate_heavy.otf
+
+    - family: Copperplate-Light
+      fonts:
+        - asset: assets/fonts/copperplate_light.otf
