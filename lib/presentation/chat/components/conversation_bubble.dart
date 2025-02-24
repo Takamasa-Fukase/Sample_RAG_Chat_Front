@@ -59,13 +59,15 @@ class ConversationBubble extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
-                            border: Border(
-                          /// Dividerの代わりにボトムにだけ枠線を描画している
-                          /// （Dividerだと横幅を指定しないと最大限に広がってしまうが、なるべく小さくしたい時には使えない為）
-                          bottom:
-                              BorderSide(color: CustomColor.paper, width: 0.5),
-                        )),
+                        decoration: (sourceUrlList.isNotEmpty)
+                            ? BoxDecoration(
+                                border: Border(
+                                /// Dividerの代わりにボトムにだけ枠線を描画している
+                                /// （Dividerだと横幅を指定しないと最大限に広がってしまうが、なるべく小さくしたい時には使えない為）
+                                bottom: BorderSide(
+                                    color: CustomColor.paper, width: 0.5),
+                              ))
+                            : null,
                         child: Column(
                           /// 内側のColumnではフィードバックボタン部分を右寄せにするために.end指定
                           crossAxisAlignment: CrossAxisAlignment.end,
