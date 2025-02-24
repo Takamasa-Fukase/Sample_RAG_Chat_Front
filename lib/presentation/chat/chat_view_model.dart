@@ -38,7 +38,7 @@ class ChatViewModel with ChangeNotifier {
       categoryName: 'UltraFukase in Tokyo, 2025',
       personName: 'UltraFukase',
       personImageName: 'fukase_image_2025_2_2.png',
-      backgroundImageName: 'background_image_2025_4_4.jpeg',
+      backgroundImageName: 'background_image_2025_4.jpg',
       introductionText: 'どうも！\n\n2025年2月末時点のウルトラ深瀬です。\n\nこのサイトは、私・深瀬の過去の経歴や活動、その時々の状況や当時考えていたことなどを知っていただくために作成しました。\n\n年代ごとの当時の深瀬に直接生の声を尋ねることができますので、画面下部の入力フォームから何か質問してみてください！答えられる範囲でお答えします！',
     ),
     Category(
