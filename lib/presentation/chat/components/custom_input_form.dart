@@ -93,11 +93,6 @@ class _CustomInputFormState extends State<CustomInputForm>
   Widget build(BuildContext context) {
     final String textString = _textEditingController.text;
     return Container(
-      margin: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: CustomColor.paper,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
       child: Column(
         children: [
           AnimatedBuilder(
@@ -117,9 +112,12 @@ class _CustomInputFormState extends State<CustomInputForm>
             },
             child: Lottie.asset("lottie/lottie.json", width: 100, height: 70),
           ),
-          Padding(
-            // padding: const EdgeInsets.only(left: 18, right: 18, bottom: 16),
-            padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
+          Container(
+            margin: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: CustomColor.paper,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
