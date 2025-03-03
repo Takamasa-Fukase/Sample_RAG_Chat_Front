@@ -49,7 +49,7 @@ class SideMenuState extends State<SideMenu> {
                       itemBuilder: (BuildContext context, int index) {
                         final category = widget.categories[index];
                         return listItem(
-                            title: category.categoryName,
+                            title: category.name,
                             isSelected: index == widget.selectedCategoryIndex,
                             onTap: () {
                               widget.onItemSelected(index);

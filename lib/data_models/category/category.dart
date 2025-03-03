@@ -5,18 +5,18 @@ part 'category.g.dart';
 @JsonSerializable()
 class Category {
   final int id;
-  final String categoryName;
+  final String name;
   final String personName;
-  final String personImageName;
-  final String backgroundImageName;
+  final String personImageUrl;
+  final String backgroundImageUrl;
   final String introductionText;
 
   Category({
     required this.id,
-    required this.categoryName,
+    required this.name,
     required this.personName,
-    required this.personImageName,
-    required this.backgroundImageName,
+    required this.personImageUrl,
+    required this.backgroundImageUrl,
     required this.introductionText,
   });
 
@@ -24,4 +24,18 @@ class Category {
       _$CategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
+}
+
+@JsonSerializable()
+class CategoryListResponse {
+  final List<Category> data;
+
+  CategoryListResponse({
+    required this.data,
+  });
+
+  factory CategoryListResponse.fromJson(Map<String, dynamic> json) =>
+      _$CategoryListResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CategoryListResponseToJson(this);
 }

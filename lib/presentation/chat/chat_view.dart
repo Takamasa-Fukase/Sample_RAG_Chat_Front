@@ -117,8 +117,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                     Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/${viewModel.categories[viewModel.selectedCategoryIndex].backgroundImageName}'),
+                          image: NetworkImage(viewModel.categories[viewModel.selectedCategoryIndex].backgroundImageUrl),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -139,8 +138,8 @@ class _ChatViewState extends ConsumerState<ChatView> {
                       left: 0,
                       right: 0,
                       child: Center(
-                        child: Image.asset(
-                          'images/${viewModel.categories[viewModel.selectedCategoryIndex].personImageName}',
+                        child: Image.network(
+                          viewModel.categories[viewModel.selectedCategoryIndex].personImageUrl,
                           fit: BoxFit.cover,
                         ),
                       ),

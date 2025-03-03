@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:sample_rag_chat/repositories/category_repository.dart';
 import 'package:sample_rag_chat/repositories/chat_repository.dart';
 import 'package:sample_rag_chat/repositories/ping_repository.dart';
 import '../../constants/chat_user.dart';
@@ -23,42 +24,29 @@ final chatViewModel = ChangeNotifierProvider(
 
 /// ViewModel
 class ChatViewModel with ChangeNotifier {
+  ChatViewModel() {
+    /// 初期化時に実行したい処理
+    _getCategoriesAndUpdate();
+  }
+
   final _errorController = StreamController<Exception>.broadcast();
 
   Stream<Exception> get errorStream => _errorController.stream;
 
   final _pingRepository = PingRepository();
+  final _categoryRepository = CategoryRepository();
   final _chatRepository = ChatRepository();
 
   List<types.TextMessage> messages = [];
   bool isShowLoadingForStream = false;
   List<Category> categories = [
     Category(
-      id: 0,
-      categoryName: 'UltraFukase in Tokyo, 2025',
-      personName: 'UltraFukase',
-      personImageName: 'fukase_image_2025_2_2.png',
-      backgroundImageName: 'background_image_2025_4.jpg',
-      introductionText:
-          'どうも！\n\n2025年2月末時点のウルトラ深瀬です。\n\nこのサイトは、私・深瀬の過去の経歴や活動、その時々の状況や当時考えていたことなどを知っていただくために作成しました。\n\n年代ごとの当時の深瀬に直接生の声を尋ねることができますので、画面下部の入力フォームから何か質問してみてください！答えられる範囲でお答えします！',
-    ),
-    Category(
       id: 1,
-      categoryName: 'Taka in Barcelona, 2022',
-      personName: 'Taka',
-      personImageName: 'fukase_image_2022_2.png',
-      backgroundImageName: 'background_image_2022_1.jpg',
-      introductionText:
-          'Hola amigo.\n\n2022年にバルセロナでワーホリしている時の深瀬です。\n\nカタコトのスペイン語を喋ります。こちらではTakaと名乗っています。とにかく毎日天気が良くて最高です。',
-    ),
-    Category(
-      id: 2,
-      categoryName: 'Fukase in Nagano, 2019',
-      personName: 'Fukase',
-      personImageName: 'fukase_image_2019_1_2.png',
-      backgroundImageName: 'background_image_2019_2.JPG',
-      introductionText:
-          'お疲れ様です！\n\n2019年に長野本社でしろたんの商品企画をしている時の深瀬です。\n\n背景に写っているのは２メートルしろたんで、手に持っているのは「深瀬たん」という、デザイナーさんが作って下さった深瀬の髪型をしたしろたんです。',
+      name: 'Loading...',
+      personName: 'Loading...',
+      personImageUrl: '',
+      backgroundImageUrl: '',
+      introductionText: 'Loading...',
     ),
   ];
   int selectedCategoryIndex = 0;
@@ -145,6 +133,19 @@ class ChatViewModel with ChangeNotifier {
     try {
       final response = await _pingRepository.checkServerConnection();
       print('_checkServerConnection: ${response?.data.message ?? ''}');
+    } on Exception catch (exception) {
+      _errorController.add(exception);
+    }
+  }
+
+  void _getCategoriesAndUpdate() async {
+    try {
+      var categories = await _categoryRepository.getCategories();
+      print('categories: $categories');
+      if (categories != null) {
+        this.categories = categories;
+        notifyListeners();
+      }
     } on Exception catch (exception) {
       _errorController.add(exception);
     }
@@ -346,7 +347,8 @@ class ChatViewModel with ChangeNotifier {
     // 既存のconnectionをcloseする
     _connection?.close();
 
-    List<String> previousMessages = (currentChatThread?.messages ?? []).map((message) {
+    List<String> previousMessages =
+        (currentChatThread?.messages ?? []).map((message) {
       if (message.author == ChatUser.chatBot) {
         return 'AI: ${message.text}';
       } else if (message.author == ChatUser.user) {
@@ -357,7 +359,6 @@ class ChatViewModel with ChangeNotifier {
     }).toList();
 
     print('send previous: $previousMessages');
-
 
     final questionBody = SendQuestionRequest(
       categoryId: categories[selectedCategoryIndex].id,
