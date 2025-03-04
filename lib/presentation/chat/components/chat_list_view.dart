@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import '../../../constants/chat_user.dart';
-import '../../../data_models/chat.dart';
+import '../../../domain/data_models/chat.dart';
+import '../../constants/chat_user.dart';
 import 'agent_action_info_bubble.dart';
 import '../components/conversation_bubble.dart';
 import '../components/custom_input_form.dart';

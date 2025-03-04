@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import '../../../constants/chat_page_const.dart';
-import '../../../constants/custom_colors.dart';
 import '../../common/responsive_widget.dart';
+import '../../constants/chat_page_const.dart';
+import '../../constants/custom_colors.dart';
 
 class AgentActionInfoBubble extends StatelessWidget {
   const AgentActionInfoBubble({required this.textMessage, Key? key})

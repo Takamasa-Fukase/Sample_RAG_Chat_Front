@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data_models/custom_error_exception.dart';
+import '../../domain/data_models/custom_error_exception.dart';
 import 'error_dialog_util.dart';
 
 class ErrorHandler {

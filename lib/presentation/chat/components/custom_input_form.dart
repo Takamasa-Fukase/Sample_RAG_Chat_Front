@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sample_rag_chat/presentation/common/custom_rounded_border_button.dart';
 
-import '../../../constants/custom_colors.dart';
+import '../../constants/custom_colors.dart';
 
 /// チャット画面のクラス
 class CustomInputForm extends StatefulWidget {

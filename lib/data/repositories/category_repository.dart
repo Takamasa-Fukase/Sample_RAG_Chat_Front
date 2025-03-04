@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../constants/api_const.dart';
-import '../data_models/custom_error_exception.dart';
-import '../data_models/category/category.dart';
+
+import '../../domain/data_models/category/category.dart';
+import '../../domain/data_models/custom_error_exception.dart';
+import '../api_const.dart';
 
 class CategoryRepository {
   Future<List<Category>?> getCategories() async {

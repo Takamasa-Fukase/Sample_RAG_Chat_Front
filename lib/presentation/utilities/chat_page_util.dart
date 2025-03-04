@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
+import '../../domain/data_models/chat.dart';
 import '../constants/chat_user.dart';
-import '../data_models/chat.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class ChatPageUtil {

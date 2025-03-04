@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/custom_colors.dart';
+import '../constants/custom_colors.dart';
 
 /// 上部のアプリバータイトル部（小さいサイズ）
 AppBar customAppBarForSmallScreen({

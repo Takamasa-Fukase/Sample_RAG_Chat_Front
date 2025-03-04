@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import '../../../constants/custom_colors.dart';
-import '../../../utilities/url_launcher_util.dart';
+
+import '../../constants/custom_colors.dart';
+import '../../utilities/url_launcher_util.dart';
 
 class SourceUrlListWidget extends StatelessWidget {
   const SourceUrlListWidget({

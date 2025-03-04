@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../constants/custom_colors.dart';
+import '../constants/custom_colors.dart';
 
 /// 上部のアプリバータイトル部（大きいサイズ）
 PreferredSize customAppBarForLargeScreen({

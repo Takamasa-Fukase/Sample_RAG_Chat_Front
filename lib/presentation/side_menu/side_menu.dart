@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sample_rag_chat/constants/custom_colors.dart';
-import '../../data_models/category/category.dart';
+import '../../domain/data_models/category/category.dart';
 import '../common/responsive_widget.dart';
+import '../constants/custom_colors.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({

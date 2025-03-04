@@ -4,18 +4,19 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:sample_rag_chat/repositories/category_repository.dart';
-import 'package:sample_rag_chat/repositories/chat_repository.dart';
-import 'package:sample_rag_chat/repositories/ping_repository.dart';
-import '../../constants/chat_user.dart';
-import '../../data_models/answer/answer.dart';
-import '../../data_models/answer_type.dart';
-import '../../data_models/category/category.dart';
-import '../../data_models/chat.dart';
-import '../../data_models/question/question.dart';
-import '../../data_models/stream_message_response_status.dart';
-import '../../utilities/chat_page_util.dart';
-import '../../utilities/sse.dart';
+
+import '../../data/repositories/category_repository.dart';
+import '../../data/repositories/chat_repository.dart';
+import '../../data/repositories/ping_repository.dart';
+import '../../data/sse.dart';
+import '../../domain/data_models/answer/answer.dart';
+import '../../domain/data_models/answer_type.dart';
+import '../../domain/data_models/category/category.dart';
+import '../../domain/data_models/chat.dart';
+import '../../domain/data_models/question/question.dart';
+import '../../domain/data_models/stream_message_response_status.dart';
+import '../constants/chat_user.dart';
+import '../utilities/chat_page_util.dart';
 
 /// ViewModelへのグローバルアクセスを提供するProvider
 final chatViewModel = ChangeNotifierProvider(

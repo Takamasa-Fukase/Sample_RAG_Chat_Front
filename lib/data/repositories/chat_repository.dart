@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import '../constants/api_const.dart';
-import '../data_models/question/question.dart';
-import '../utilities/sse.dart';
+
+import '../../domain/data_models/question/question.dart';
+import '../api_const.dart';
+import '../sse.dart';
 
 class ChatRepository {
   Future<Sse> sendQuestion(

@@ -4,15 +4,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sample_rag_chat/constants/custom_colors.dart';
 import 'package:sample_rag_chat/presentation/chat/chat_view_model.dart';
-import '../../constants/chat_page_const.dart';
-import '../../constants/chat_user.dart';
-import '../../utilities/error_handler.dart';
 import '../common/custom_app_bar_for_large_screen.dart';
 import '../common/custom_app_bar_for_small_screen.dart';
 import '../common/responsive_widget.dart';
+import '../constants/chat_page_const.dart';
+import '../constants/custom_colors.dart';
 import '../side_menu/side_menu.dart';
+import '../utilities/error_handler.dart';
 import 'components/chat_list_view.dart';
 
 class ChatView extends ConsumerStatefulWidget {
