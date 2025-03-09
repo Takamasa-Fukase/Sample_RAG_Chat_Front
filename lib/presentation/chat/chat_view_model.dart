@@ -75,8 +75,6 @@ class ChatViewModel with ChangeNotifier {
 
   /// MARK: - Viewの初期化タイミングに合わせて行う処理
   void onViewInitState() async {
-    onSideMenuItemSelected(0);
-
     // サーバーAPIとの疎通確認
     _checkServerConnection();
 
@@ -146,6 +144,7 @@ class ChatViewModel with ChangeNotifier {
       if (categories != null) {
         this.categories = categories;
         notifyListeners();
+        onSideMenuItemSelected(0);
       }
     } on Exception catch (exception) {
       _errorController.add(exception);
